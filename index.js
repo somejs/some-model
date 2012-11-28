@@ -1,0 +1,1 @@
+var Model= module.exports= require('./lib/Model')
