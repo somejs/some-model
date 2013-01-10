@@ -1,293 +1,148 @@
 var assert= require('chai').assert
 
-module.exports= function (Model) { return function () {
-    describe('Библиотека экспортирует конструктор модели, который', function () {
-
-        it('является функцией — `Model()`', function () {
+module.exports= function (Model) {
+    var assertClass= function (Class) {
+        return function () {
             assert.isFunction(
-                Model
+                Class
             )
-        })
-
-        it('несет на себе определения свойств — `Model.properties`', function () {
+        }
+    }
+    var assertClassInstance= function (Class, instance) {
+        return function () {
+            assert.instanceOf(
+                instance, Class
+            )
+        }
+    }
+    var assertProperty= function (Property) {
+        return function () {
             assert.isDefined(
-                Model.properties
+                Property
             )
-            assert.equal(
-                'model', Model.properties.type
+        }
+    }
+    var assertMethod= function (Method) {
+        return function () {
+            assert.isFunction(
+                Method
             )
-        })
-
-        it('бросает исключение, если значение требуемого свойства не передано', function () {
-            var model= null
-            try {
-                model= new Model({
-                    db: {}, //key: 'path/to/data'
-                })
-            } catch (e) {
-                assert.instanceOf(
-                    e, Model.Property.BadValue
-                )
-            } finally {
-                assert.isNull(
-                    model
-                )
-            }
-        })
-
-
-        describe('возвращает экземпляр модели, который', function () {
-
-            var db= {}
-            var model= new Model({
-                db:db, key:'path/to/data',
-                loaded:true,
-
-                other:'something',
-                empty:null,
-            })
-
-            it('имеет определенный тип', function () {
-                assert.instanceOf(
-                    model, Model
-                )
-            })
-
-            it('имеет объявленные свойства', function () {
-                assert.isDefined(
-                    model.db
-                )
-                assert.isDefined(
-                    model.key
-                )
-                assert.isDefined(
-                    model.loaded
-                )
-                assert.isDefined(
-                    model.other
-                )
-                assert.isDefined(
-                    model.empty
-                )
-            })
-            it('содержит переданные значения', function () {
-                assert.equal(
-                    'path/to/data', model.key
-                )
-                assert.deepEqual(
-                    db, model.db
-                )
-                assert.equal(
-                    true, model.loaded
-                )
-                assert.equal(
-                    'something', model.other
-                )
-                assert.equal(
-                    null, model.empty
-                )
-            })
-
-
-
-            describe('имеет специальное свойство `model.properties` c объявлением модели, которое', function () {
-                it('содержит объект', function () {
-                    assert.isObject(
-                        model.properties
-                    )
-                })
-                it('содержит объявления свойств, чьи дескрипторы — экземпляры `Model.Property`', function () {
-                    assert.isDefined(
-                        model.properties.db
-                    )
-                    assert.instanceOf(
-                        model.properties.db, Model.Property
-                    )
-
-                    assert.isDefined(
-                        model.properties.key
-                    )
-                    assert.instanceOf(
-                        model.properties.key, Model.Property
-                    )
-                })
-                it('остальных объявлений не содержит', function () {
-                    assert.isUndefined(
-                        model.properties.loaded
-                    )
-                    assert.isUndefined(
-                        model.properties.other
-                    )
-                    assert.isUndefined(
-                        model.properties.empty
-                    )
-                })
-
-            })
-
-
-            describe('имеет свойство `model.db` для хранения маппера модели в базу данных, которое', function () {
-                it('содержит объект', function () {
-                    assert.isObject(
-                        model.db
-                    )
+        }
+    }
+    return function () {
+        describe('Model constructor', function () {
+            it('should be a class', assertClass(Model))
+            describe('exports Model.Mapper', function () {
+                it('should be a property', assertProperty(
+                    Model.Mapper
+                ))
+                describe('return constructor', function () {
+                    it('should be a class', assertClass(Model.Mapper))
                 })
             })
-
-
-
-            describe('имеет метод `model.load()` для загрузки данных в объявленные свойства, который', function () {
-                it('является функцией', function () {
-                    assert.isFunction(
-                        model.load
-                    )
+            describe('exports Model.Property', function () {
+                it('should be a property', assertProperty(
+                    Model.Property
+                ))
+                describe('return constructor', function () {
+                    it('should be a class', assertClass(Model.Property))
                 })
-                it('объявлен в прототипе', function () {
-                    assert.isFunction(
-                        model.constructor.prototype.load
-                    )
-                })
-                describe('использует внутри специальный загрузчик `model.loader`, который', function () {
-                    it('тоже является функцией', function () {
-                        assert.isFunction(
-                            model.loader
-                        )
-                    })
-                    it('объявляется при инициализации, в прототипе его нет', function () {
-                        assert.isUndefined(
-                            model.constructor.prototype.loader
-                        )
-                    })
-                })
-
-
-
-                describe('загружает данные в объявленные свойства модели', function () {
-
-                    var db= {}
-                    var model= new Model({
-                        db:db, key:'path/to/data',
-                        loaded:true,
-
-                        other:'something',
-                        empty:null,
-                    })
-
-                    //describe('если свойство `model.loaded` установлено, модель считается загруженной', function () {
-                    //    assert.isTrue(
-                    //        model.loaded
-                    //    )
-                    //    it('метод возвращает `null` вместо списка загруженного', function (done) {
-                    //        model.load(function (err, loaded, model) {
-                    //            assert.isNull(
-                    //                loaded
-                    //            )
-                    //            assert.instanceOf(
-                    //                model, Model
-                    //            )
-                    //            done()
-                    //        })
-                    //    })
-                    //    it('порождает событие модели `loaded`', function (done) {
-                    //        model.on('loaded', function (loaded, model) {
-                    //            assert.isNull(
-                    //                loaded
-                    //            )
-                    //            done()
-                    //        })
-                    //        model.load(function (err, loaded, model) {
-                    //            assert.isNull(
-                    //                loaded
-                    //            )
-                    //            assert.instanceOf(
-                    //                model, Model
-                    //            )
-                    //        })
-                    //    })
-                    //})
-
-                    describe('если свойство `model.loaded` не установлено, но загружать нечего', function () {
-
-                        //var model= null
-                        //beforeEach(function(){
-                        //    var db= {}
-                        //    model= new Model({
-                        //        db:db, key:'path/to/data',
-                        //        loaded:false,
-                        //        other:'something',
-                        //        empty:null,
-                        //    })
-                        //})
-
-                        //assert.isFalse(
-                        //    model.loaded
-                        //)
-                        describe('порождает событие модели `loaded`, которое', function () {
-                            var model= null
-                            beforeEach(function(){
-                                var db= {}
-                                model= new Model({
-                                    db:db, key:'path/to/data',
-                                    loaded:false,
-
-                                    other:'something',
-                                    empty:null,
-                                })
-                            })
-                            it('передает обработчику карту загруженных свойств', function (done) {
-                                //model.on('loaded', function (loaded, model) {
-                                //    assert.isNull(
-                                //        loaded
-                                //    )
-                                //    //done()
-                                //})
-                                model.load(function (err, loaded, model) {
-                                    assert.isNull(
-                                        loaded
-                                    )
-                                    assert.instanceOf(
-                                        model, Model
-                                    )
-                                    done()
-                                })
-                            })
-                            model
+            })
+            describe('has properties', function () {
+                describe('Model.properties', function () {
+                    it('should be a property', assertProperty(
+                        Model.properties
+                    ))
+                    describe('return properties descriptors', function () {
+                        it('should be an object', function () {
+                            assert.isObject(
+                                Model.properties
+                            )
                         })
-                        //it('метод возвращает `null` вместо списка загруженного', function (done) {
-                        //    model.load(function (err, loaded, model) {
-                        //        assert.isNull(
-                        //            loaded
-                        //        )
-                        //        assert.instanceOf(
-                        //            model, Model
-                        //        )
-                        //        done()
-                        //    })
-                        //})
-                        //it('свойство `model.loaded` устанавливается в `true`', function () {
-                        //    assert.isTrue(
-                        //        model.loaded
-                        //    )
-                        //})
+                        describe('Model.properties.type', function () {
+                            it('should be a property', assertProperty(
+                                Model.properties.type
+                            ))
+                        })
                     })
-                    //it('загружает данные в свойства, помеченные как незагруженные', function (done) {
-                    //    assert.isFalse(
-                    //        model.loaded
-                    //    )
-                    //    model.load(function (err, loaded, model) {
-                    //        assert.instanceOf(
-                    //            model, Model
-                    //        )
-                    //        assert.isObject(
-                    //            loaded
-                    //        )
-                    //        done()
-                    //    })
-                    //})
-
+                })
+            })
+            describe('has methods', function () {
+                describe('Model.find()', function () {
+                    it('should be a method', assertMethod(
+                        Model.find
+                    ))
+                })
+                describe('Model.load()', function () {
+                    it('should be a method', assertMethod(
+                        Model.load
+                    ))
+                })
+                describe('Model.save()', function () {
+                    it('should be a method', assertMethod(
+                        Model.load
+                    ))
                 })
             })
         })
-
-    })
-}}
+        describe('Model instance', function () {
+            var model= new Model({
+                mapper: new Model.Mapper,
+                key:'key'
+            })
+            it('instance of Model', assertClassInstance(Model, model))
+            describe('has properties', function () {
+                describe('model.type', function () {
+                    it('should be a property', assertProperty(
+                        model.type
+                    ))
+                    it('should return String', function () {
+                        assert.isString(
+                            model.type
+                        )
+                    })
+                })
+                describe('model.mapper', function () {
+                    it('should be a property', assertProperty(
+                        model.mapper
+                    ))
+                    it('should return Object', function () {
+                        assert.isObject(
+                            model.mapper
+                        )
+                    })
+                })
+                describe('model.prefix', function () {
+                    it('should be a property', assertProperty(
+                        model.prefix
+                    ))
+                })
+                describe('model.key', function () {
+                    it('should be a property', assertProperty(
+                        model.key
+                    ))
+                    it('should return String', function () {
+                        assert.isString(
+                            model.type
+                        )
+                    })
+                })
+            })
+        })
+        describe('Modeling', function () {
+            var Hash= Model({
+                type: Model.Property({
+                    enumerable:false, default:'hash'
+                }),
+                prefix: Model.Property({
+                    enumerable:false, default:'hashes'
+                }),
+            })
+            var model= new Hash({
+                mapper: new Model.Mapper,
+                prefix: 'path:to:model',
+                key: '100500',
+            })
+        })
+    }
+}
