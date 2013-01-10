@@ -2,7 +2,8 @@ var Model= require('../lib/Model')
 
 console.log("\nМодель",
     Model instanceof Function,
-    Model.type === 'model'
+    Model.type === 'model',
+    Model.properties instanceof Object
 )
 console.log(
     Model.find instanceof Function,
@@ -49,12 +50,13 @@ var model= new Model({
 })
 console.log("\nЭкземпляр модели",
     model instanceof Model,
-    model.constructor === Model
+    model.constructor === Model,
+    model.constructor.properties instanceof Object
 )
 console.log(
     model.mapper instanceof Model.Mapper,
     model.prefix == 'models',
     model.key == 'path:to:data',
-    model.loaded == null, model.loaded=true, model.loaded,
-    model.events == null
+    model.loaded == false, model.loaded=true, model.loaded == true,
+    model.events instanceof require('events').EventEmitter
 )
