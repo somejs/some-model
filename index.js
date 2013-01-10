@@ -1,1 +1,1 @@
-var Model= module.exports= require('./lib/Model')
+module.exports= require('./lib/Model')
