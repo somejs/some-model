@@ -22,7 +22,7 @@ npm test
 #### Сохранение и загрузка
 
  
-## API и [документация](http://api.somejs.org)
+## API и [документация](http://api.somejs.org/model)
 
 ###### Методы класса
 

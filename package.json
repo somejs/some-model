@@ -1,6 +1,6 @@
 {
   "name": "some-model",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "some model dsl",
   "keywords": [
     "some", "model", "domain", "specific", "language",
@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/freaking-awesome/some-model.git"
+    "url": "https://github.com/somejs/some-model.git"
   },
   "author": {
     "name": "Teh Freak",
@@ -19,7 +19,7 @@
     "test": "mocha --reporter spec"
   },
   "dependencies": {
-    "some-schema": "https://github.com/freaking-awesome/some-schema/archive/master.tar.gz"
+    "some-schema": "https://github.com/somejs/some-schema/archive/master.tar.gz"
   },
   "devDependencies": {
     "mocha": "*",
