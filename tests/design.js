@@ -60,3 +60,32 @@ console.log(
     model.loaded == false, model.loaded=true, model.loaded == true,
     model.events instanceof require('events').EventEmitter
 )
+
+var M1= Model({
+
+    mapper: Boolean, key: Boolean,
+
+    b1: Boolean,
+    b2: Model.Property({
+        type: Boolean
+    }),
+})
+
+console.log(
+    M1.properties.b1 instanceof Model.Property,
+    M1.properties.b1 .type === Boolean,
+    (new M1()).b1 instanceof Boolean, (new M1()).b1 !== false, (new M1()).b1 == false,
+    (new M1()).b1.constructor === Boolean,
+    '[object Boolean]' === Object.prototype.toString.call(
+        (new M1()).b1
+    )
+)
+console.log(
+    M1.properties.b2 instanceof Model.Property,
+    M1.properties.b2 .type === Boolean,
+    (new M1()).b2 instanceof Boolean, (new M1()).b2 !== false, (new M1()).b2 == false,
+    (new M1()).b2.constructor === Boolean,
+    '[object Boolean]' === Object.prototype.toString.call(
+        (new M1()).b2
+    )
+)
