@@ -60,3 +60,53 @@ console.log(
     model.loaded == false, model.loaded=true, model.loaded == true,
     model.events instanceof require('events').EventEmitter
 )
+
+// По умолчанию сохраняет модели в память
+
+var My= Model({
+    p1: Model.Property({
+        value:'123'
+    }),
+    p2: Model.Property({
+        value: '456'
+    }),
+    p3: Model.Property({
+        value: '789'
+    }),
+})
+
+var my= new My({
+    key:'my1',
+})
+console.log(my.loaded === false)
+my.save(function (err, m) {
+    console.log(my.loaded === true)
+})
+
+var my= new My({
+    key:'my2',
+})
+console.log(my.loaded === false)
+my.save(function (err, m) {
+    console.log(my.loaded === true)
+})
+
+var my= new My({
+    key:'my1',
+})
+console.log(my.loaded === false)
+my.load(function (err, m) {
+    console.log(my.loaded === true)
+})
+
+var mapper= new My.Mapper
+mapper.find(My, 'models', 'my1', function (err, found) {
+    console.log(
+        !!found.my1
+    )
+})
+mapper.find(My, 'models', ['my1', 'my2', 'my3'], function (err, found) {
+    console.log(
+        !!found.my1, !!found.my2, !found.my3
+    )
+})
