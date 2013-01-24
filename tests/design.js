@@ -36,11 +36,11 @@ console.log(
 )
 console.log(
     Model.Mapper.prototype.load instanceof Function,
-    Model.Mapper.prototype.load.length === 2 // model, callback
+    Model.Mapper.prototype.load.length === 3 // unloaded, model, callback
 )
 console.log(
     Model.Mapper.prototype.save instanceof Function,
-    Model.Mapper.prototype.save.length === 2 // model, callback
+    Model.Mapper.prototype.save.length === 3 // unsaved, model, callback
 )
 
 var model= new Model({
@@ -108,5 +108,64 @@ mapper.find(My, 'models', 'my1', function (err, found) {
 mapper.find(My, 'models', ['my1', 'my2', 'my3'], function (err, found) {
     console.log(
         !!found.my1, !!found.my2, !found.my3
+    )
+})
+
+// Загрузка и сохранение вложенных схем
+
+var Tree= Model({
+    p1: Model.Property({
+        value:'123'
+    }),
+    p2: Model({
+        p21: Model.Property({
+            value:'456'
+        }),
+        p22: Model.Property({
+            value:'789'
+        }),
+    }),
+    p3: Model({
+        p31: Model.Property({
+            value:'123'
+        }),
+        p32: Model({
+            p321:Model.Property({
+                value:'321'
+            }),
+        }),
+    })
+})
+
+var tree= new Tree
+console.log(
+    tree.loaded === false,
+    tree.p2.loaded === false,
+    tree.p3.loaded === false, tree.p3.p32.loaded === false
+)
+tree.save(function (err, tree) {
+    console.log(
+        tree.loaded === true,
+        tree.p2.loaded === true,
+        tree.p3.loaded === true, tree.p3.p32.loaded === true
+    )
+})
+
+var tree= new Tree
+console.log(
+    tree.loaded === false,
+    tree.p2.loaded === false,
+    tree.p3.loaded === false, tree.p3.p32.loaded === false
+)
+tree.load(function (err, tree) {
+    console.log(
+        tree.loaded === true,
+        tree.p2.loaded === true,
+        tree.p3.loaded === true, tree.p3.p32.loaded === true
+    )
+    console.log(
+        tree.p1 === '123',
+        tree.p2.p21 === '456', tree.p2.p22 === '789',
+        tree.p3.p31 === '123', tree.p3.p32.p321 === '321'
     )
 })
