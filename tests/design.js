@@ -169,3 +169,64 @@ tree.load(function (err, tree) {
         tree.p3.p31 === '123', tree.p3.p32.p321 === '321'
     )
 })
+
+// Работа с моделями
+
+//
+// Персональные данные
+//
+var Profile= Model({
+
+    firstname: Model.Property({ // имя
+        type: String,
+        value:'Иван'
+    }),
+
+    midname: Model.Property({ // отчество
+        type: String,
+        value:'Иванович'
+    }),
+
+    lastname: Model.Property({ // фамилия
+        type: String,
+        value:'Иванов'
+    }),
+
+})
+var profile= new Profile
+console.log(
+    profile instanceof Profile,
+    profile.firstname === 'Иван',
+    profile.midname === 'Иванович',
+    profile.lastname === 'Иванов'
+)
+
+//
+// Пользователь
+//
+var User= Model({
+
+    title: Model.Property({ // имя пользователя
+        type: String,
+        value:'Anonymous'
+    }),
+
+    profile: Model.Property({ // профиль пользователя
+        type: Profile,
+        value:{
+            firstname:'Константин',
+            lastname:'Константинопольский',
+        }
+    })
+
+})
+var user= new User
+console.log(
+    user.title === 'Anonymous'
+)
+console.log(
+    user.profile instanceof Profile,
+    user.profile.firstname === 'Константин',
+    user.profile.midname === 'Иванович',
+    user.profile.lastname === 'Константинопольский'
+)
