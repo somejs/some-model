@@ -230,3 +230,46 @@ console.log(
     user.profile.midname === 'Иванович',
     user.profile.lastname === 'Константинопольский'
 )
+
+// Cоздание и сохранение пользователей
+
+new User({ key:'1', title:'first' }).save(function (err, user) {
+    console.log(
+        user.loaded === true
+    )
+})
+
+new User({ key:'2' }).save(function (err, user) {
+    console.log(
+        user.loaded === true
+    )
+    user.title='second' // после этого пользователь должен стать несохраненным
+    console.log(
+        user.loaded === false
+    )
+    user.save(function (err, user) {
+        console.log(
+            user.loaded === true
+        )
+    })
+})
+
+// Загрузка сохраненных пользователей
+
+new User({ key:'2' }).load(function (err, user) {
+    console.log(
+        user.loaded === true
+    )
+    console.log(
+        user.title === 'second'
+    )
+})
+
+new User({ key:'1' }).load(function (err, user) {
+    console.log(
+        user.loaded === true
+    )
+    console.log(
+        user.title === 'first'
+    )
+})
