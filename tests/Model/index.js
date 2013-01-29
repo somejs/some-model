@@ -67,23 +67,6 @@ module.exports= function (Model) {
                     })
                 })
             })
-            describe('has methods', function () {
-                describe('Model.find()', function () {
-                    it('should be a method', assertMethod(
-                        Model.find
-                    ))
-                })
-                describe('Model.load()', function () {
-                    it('should be a method', assertMethod(
-                        Model.load
-                    ))
-                })
-                describe('Model.save()', function () {
-                    it('should be a method', assertMethod(
-                        Model.load
-                    ))
-                })
-            })
         })
         describe('Model instance', function () {
             var model= new Model({
