@@ -112,20 +112,102 @@ module.exports= function (Model) {
                 })
             })
         })
-        describe('Modeling', function () {
-            var Hash= Model({
-                type: Model.Property({
-                    enumerable:false, default:'hash'
+        describe('Descendant of the model', function () {
+            var M1= Model({
+                p1: Model.Property({
+                    value:'P1'
                 }),
-                prefix: Model.Property({
-                    enumerable:false, default:'hashes'
+                p2: Model.Property({
+                    value:'P2'
                 }),
             })
-            var model= new Hash({
-                mapper: new Model.Mapper,
-                prefix: 'path:to:model',
-                key: '100500',
+            it('should have declared properties', function () {
+                assert.isObject(
+                    M1.properties
+                )
+                assert.instanceOf(
+                    M1.properties.p1, Model.Property
+                )
+                assert.instanceOf(
+                    M1.properties.p2, Model.Property
+                )
+                assert.instanceOf(
+                    M1.properties.mapper, Model.Property
+                )
+                assert.instanceOf(
+                    M1.properties.prefix, Model.Property
+                )
+                assert.instanceOf(
+                    M1.properties.key, Model.Property
+                )
             })
+            describe('Instance of the descendant', function () {
+                var m1= new M1
+                it('should have declared properties', function () {
+                    assert.equal(
+                        m1.p1, 'P1'
+                    )
+                    assert.equal(
+                        m1.p2, 'P2'
+                    )
+                })
+                it('should have an established mapper', function () {
+                    assert.instanceOf(
+                        m1.mapper, Model.Mapper
+                    )
+                    assert.isUndefined(
+                        m1.mapper.prefix
+                    )
+                })
+                describe('Save model with mapper', function () {
+                    var m1= new M1
+                    m1.p1= 'P1.1'
+                    m1.p2= 'P2.1'
+                    it('should be unsaved', function () {
+                        assert.isFalse(
+                            m1.loaded
+                        )
+                    })
+                    it('should call function with error and saved model', function (done) {
+                        m1.save(function (err, m) {
+                            assert.equal(
+                                m1, m
+                            )
+                            assert.isTrue(
+                                m1.loaded
+                            )
+                            done()
+                        })
+                    })
+                    describe('Load saved model with mapper', function () {
+                        var m2= new M1
+                        assert.equal(
+                            m2.p1, 'P1'
+                        )
+                        assert.equal(
+                            m2.p2, 'P2'
+                        )
+                        it('should call function with error and saved model', function (done) {
+                            m2.load(function (err, m) {
+                                assert.equal(
+                                    m2, m
+                                )
+                                assert.isTrue(
+                                    m2.loaded
+                                )
+                                assert.equal(
+                                    m2.p1, 'P1.1'
+                                )
+                                assert.equal(
+                                    m2.p2, 'P2.1'
+                                )
+                                done()
+                            })
+                        })
+                    })
+                })
+            })
+            
         })
     }
 }
