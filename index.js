@@ -46,9 +46,8 @@ function $(Service, service) {
         }
     }
     ,   function (name, properties) {
-            service.emit('extend', name, properties)
-            var $model= $(Service, new Service(name, properties || {}, service.Model, service))
-            service.emit('extended', $model)
+            var srvc= service.define(name, properties)
+            var $model= srvc.Model.$model= $(Service, srvc)
             return $model
     }
     ,   function (data) {
