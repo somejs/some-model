@@ -1,6 +1,6 @@
 # [some-model](http://somejs.org/model) [![Build Status](https://secure.travis-ci.org/somejs/some-model.png)](http://travis-ci.org/somejs/some-model)
 
-Язык декларативного моделирования данных.
+Язык декларативного моделирования.
 
  
 ## Установка
