@@ -205,4 +205,28 @@ module.exports= function ($model) { return function () {
         })
 
     })
+
+    describe('Create `Model` from dsl:', function () {
+
+        var Book= $model('Book', {
+
+            'id': { type:'Number' },
+
+            'isbn': { type:'String', filter:['trim', ['regexp', '^[\-0-9a-zA-Z]+?']] },
+
+            'titleRu': { type:'String' },
+            'titleEn': { type:'String' },
+
+            'author': { type:'Model', model:'Author', properties: {/* ... */} }
+
+        })
+
+        it('created `Model` have defined properties', function () {
+            assert.isObject(Book.properties)
+            for (p in Book.properties) {
+                assert.instanceOf(Book.properties[p], Book.Model.Property)
+            }
+            console.log(Book.properties)
+        })
+    })
 }}
