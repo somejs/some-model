@@ -226,7 +226,6 @@ module.exports= function ($model) { return function () {
             for (p in Book.properties) {
                 assert.instanceOf(Book.properties[p], Book.Model.Property)
             }
-            console.log(Book.properties)
         })
     })
 }}

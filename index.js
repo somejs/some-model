@@ -46,18 +46,11 @@ function $(Service, service) {
         }
     }
     ,   function (name, properties) {
-            var srvc= service.define(name, properties)
-            var $model= srvc.Model.$model= $(Service, srvc)
-            return $model
+            return $(Service,
+                service.define(name, properties)
+            )
     }
     ,   function (data) {
-            service.emit('instantiate', data)
-            try {
-                var model= new service.Model(data)
-                service.emit('instantiated', model)
-                return model
-            } catch (err) {
-                service.emit('error', err)
-            }
+            return service.create(data)
     })
 }
