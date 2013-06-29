@@ -4,7 +4,7 @@ var ModelService= require('./lib/ModelService')
 
 
 
-module.exports= $(ModelService, new ModelService('$model', {}, Model))
+var $model= module.exports= $(ModelService, new ModelService('$model', {}, Model))
 
 
 
