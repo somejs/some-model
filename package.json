@@ -24,7 +24,7 @@
   },
 
   "dependencies": {
-
+    "some-schema": "https://github.com/somejs/some-schema/archive/master.tar.gz"
   },
 
   "devDependencies": {
