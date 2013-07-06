@@ -40,7 +40,7 @@ function $(Service, service) {
         },
         get: function (proxy, k) {
             if ('prototype' === k) {
-                return service.constructor.prototype
+                return service.Model.prototype
             }
             return service[k]
         }

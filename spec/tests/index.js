@@ -23,6 +23,15 @@ module.exports= function ($model) { return function () {
             assert.isFunction($model.Model)
         })
 
+
+        describe('$model constructor prototype', function () {
+
+            it('should be linked with $model.Model.prototype', function () {
+                assert.strictEqual($model.prototype.constructor, $model.Model)
+            })
+
+        })
+
         describe('$model instance', function () {
 
             var model= new $model
@@ -32,6 +41,7 @@ module.exports= function ($model) { return function () {
             })
 
         })
+
     })
 
 
@@ -227,5 +237,6 @@ module.exports= function ($model) { return function () {
                 assert.instanceOf(Book.properties[p], Book.Model.Property)
             }
         })
+
     })
 }}
