@@ -1,5 +1,5 @@
 {
-  "name": "some-model", "version": "0.5.3",
+  "name": "some-model", "version": "0.5.5",
 
   "description": "some model dsl",
 
@@ -24,7 +24,8 @@
   },
 
   "dependencies": {
-    "some-schema": "https://github.com/somejs/some-schema/archive/master.tar.gz"
+    "some-schema": "https://github.com/somejs/some-schema/archive/master.tar.gz",
+    "some-service": "https://github.com/somejs/some-service/archive/master.tar.gz"
   },
 
   "devDependencies": {
