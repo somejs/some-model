@@ -39,9 +39,6 @@ function $(Service, service) {
             return Object.defineProperty(service, name, descriptor)
         },
         get: function (proxy, k) {
-            if ('prototype' === k) {
-                return service.Model.prototype
-            }
             return service[k]
         }
     }

@@ -23,13 +23,10 @@ module.exports= function ($model) { return function () {
             assert.isFunction($model.Model)
         })
 
-
-        describe('$model constructor prototype', function () {
-
-            it('should be linked with $model.Model.prototype', function () {
+        describe('$model.prototype', function () {
+            it('should provide $model.Model.prototype', function () {
                 assert.strictEqual($model.prototype.constructor, $model.Model)
             })
-
         })
 
         describe('$model instance', function () {
