@@ -19,12 +19,21 @@ module.exports= function ($model) { return function () {
             assert.isObject($model.properties)
         })
 
-        it('should have Model constructor', function () {
-            assert.isFunction($model.Model)
+        describe('$model.Model', function () {
+            it('should be a function', function () {
+                assert.isFunction($model.Model)
+            })
+        })
+
+        describe('$model.Service', function () {
+            it('should be a function', function () {
+                assert.isFunction($model.Service)
+            })
         })
 
         describe('$model.prototype', function () {
             it('should provide $model.Model.prototype', function () {
+                assert.strictEqual($model.prototype, $model.Model.prototype)
                 assert.strictEqual($model.prototype.constructor, $model.Model)
             })
         })
