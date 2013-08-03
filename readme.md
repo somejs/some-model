@@ -10,7 +10,12 @@ npm test
 ```
 Зависит от **[some-schema](https://github.com/somejs/some-schema)** и **[some-service](https://github.com/somejs/some-service)**. Для тестирования необходимы **[mocha]()** и **[chai]()**.
 
-Требует гармонию. Установите флаг запуска ```--harmony``` или ```--harmony_proxies```.
+ 
+
+Требует гармонию. Установите флаг запуска ```--harmony``` или ```--harmony_proxies```:
+```
+node --harmony index.js
+```
 
  
 ### Определение моделей
@@ -29,10 +34,10 @@ var Model= require('some-model')('Model', {
 ```
 В результате:
 ```js
-console.log(Model, Model.properties)
+console.log('базовая модель:', Model, Model.properties)
 ```
 ```
-[object Function] {
+базовая модель: [object Function] {
     id: { type: [Function: Number] }
 }
 ```
