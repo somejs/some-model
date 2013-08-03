@@ -27,6 +27,7 @@
   },
 
   "devDependencies": {
+    "some-model-collection": "https://github.com/somejs/some-model-collection/archive/master.tar.gz",
     "mocha": "*",
     "chai": "*"
   },
