@@ -1,5 +1,5 @@
 {
-  "name": "some-model", "version": "0.5.5",
+  "name": "some-model", "version": "0.5.7",
 
   "description": "some model dsl",
 
@@ -16,8 +16,6 @@
   "author": {
     "name": "Michael F", "email": "tehfreak@awesome39.com"
   },
-
-  "main": "./lib/Model",
 
   "scripts": {
     "test": "mocha --harmony --reporter spec"

@@ -51,7 +51,7 @@ var Book= Model('Book', {
 
         'title': String,
 
-    })
+    }),
 })
 
 console.log('модель книги:', Book, Book.properties)
@@ -65,12 +65,54 @@ var book= new Book({
 
     authoredAt: '1999',
     author: {
-        title: 'Neal Stephenson'
+        title: 'Neal Stephenson',
     },
 
     publishedAt: '1999',
     publisher: {
-        title: 'Avon'
+        title: 'Avon',
+    },
+})
+
+console.log('экземпляр книги:', book)
+
+/**
+ * Модель книги c множеством авторов и издателей.
+ */
+var Book= Model('Book', {
+
+    'title': String,
+
+    'authoredAt': Date,
+    'authors': require('some-model-collection')(Author, 'BookAuthor'),
+
+    'publishers': require('some-model-collection')(Model('Publisher', {
+        'title': String
+    }), 'BookPublisher', {
+            'isbn': Number,
+            'publishedAt': Date,
+    }),
+})
+
+console.log('модель книги:', Book, Book.properties)
+
+var book= new Book({
+
+    id: 2701,
+
+    title: 'Cryptonomicon',
+
+    authoredAt: '1999',
+    authors: [{
+        title: 'Neal Stephenson',
+    }, {
+        title: 'Bruce Schneier',
+    }],
+
+    publishers: {
+        isbn: '380973464',
+        title: 'Avon',
+        publishedAt: '1999',
     },
 })
 

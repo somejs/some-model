@@ -1,9 +1,9 @@
 # [some-model](http://somejs.org/model) [![Build Status](https://secure.travis-ci.org/somejs/some-model.png)](http://travis-ci.org/somejs/some-model)
 
-Язык декларативного моделирования данных.
+Язык декларативного моделирования реляционной модели данных.
 
  
-## Установка
+## Установка и использование
 ```
 npm install https://github.com/somejs/some-model/archive/master.tar.gz
 npm test
@@ -11,11 +11,6 @@ npm test
 Зависит от **[some-schema](https://github.com/somejs/some-schema)** и **[some-service](https://github.com/somejs/some-service)**. Для тестирования необходимы **[mocha]()** и **[chai]()**.
 
 Требует гармонию. Установите флаг запуска ```--harmony``` или ```--harmony_proxies```.
-
- 
-## Использование
-
-Используется для моделирования реляционной модели данных.
 
  
 ### Определение моделей
