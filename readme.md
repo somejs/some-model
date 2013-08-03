@@ -70,6 +70,7 @@ var Book= Model('Book', {
         'title': String,
 
     })
+
 })
 ```
 В результате:
@@ -87,14 +88,9 @@ console.log('модель книги:', Book, Book.properties)
     publisher: { type: [Function: Publisher] }
 }
 ```
-
- 
-### Инстанцирование моделей
-
-Определенные модели можно инстанцировать:
+В результате инстанцирования:
 ```js
-
-var book= new Book({
+console.log('экземпляр книги:', new Book({
 
     id: 2701,
     isbn: '380973464',
@@ -110,11 +106,8 @@ var book= new Book({
     publisher: {
         title: 'Avon'
     },
-})
-```
-В результате:
-```js
-console.log('экземпляр книги:', book)
+
+}))
 ```
 ```
 экземпляр книги: {
@@ -125,5 +118,90 @@ console.log('экземпляр книги:', book)
     author: { id: null, title: 'Neal Stephenson' },
     publishedAt: Fri Jan 01 1999 04:00:00,
     publisher: { id: null, title: 'Avon' }
+}
+```
+
+ 
+### Определение коллекции моделей
+
+Коллекция используется для связи модели с множеством моделей. Пример определения коллекций:
+```js
+
+/**
+ * Модель книги c множеством авторов и издателей.
+ */
+var Book= Model('Book', {
+
+    'title': String,
+
+    'authoredAt': Date,
+    'authors': /* Коллекция авторов */ require('some-model-collection')(
+        Author, 'BookAuthor'
+    ),
+
+    'publishers': /* Коллекция издателей */ require('some-model-collection')(
+        Model('Publisher', {
+
+            'title': String
+
+    }), 'BookPublisher', {
+
+            'isbn': Number,
+            'publishedAt': Date,
+
+    }),
+
+})
+```
+В результате:
+```js
+console.log('модель книги:', Book, Book.properties)
+```
+```
+модель книги: [object Function] {
+    id: { type: [Function: Number] },
+    title: { type: [Function: String] },
+    authoredAt: { type: [Function: Date] },
+    authors: { type: [Function: BookAuthor] },
+    publishers: { type: [Function: BookPublisher] }
+}
+```
+В результате инстанцирования:
+```js
+console.log('экземпляр книги:', new Book({
+
+    id: 2701,
+
+    title: 'Cryptonomicon',
+
+    authoredAt: '1999',
+    authors: [{
+        title: 'Neal Stephenson',
+    }, {
+        title: 'Bruce Schneier',
+    }],
+
+    publishers: {
+        isbn: '380973464',
+        title: 'Avon',
+        publishedAt: '1999',
+    },
+
+}))
+```
+```
+экземпляр книги: {
+    id: 2701,
+    title: 'Cryptonomicon',
+    authoredAt: Fri Jan 01 1999 00:00:00,
+    authors: {
+        length: 2,
+        '0': { id: NaN, title: 'Neal Stephenson' },
+        '1': { id: NaN, title: 'Bruce Schneier' }
+    },
+    publishers: {
+        length: 1,
+        '0': { id: NaN, title: 'Avon', isbn: 380973464, publishedAt: Fri Jan 01 1999 00:00:00 GMT+0400 },
+    }
 }
 ```
